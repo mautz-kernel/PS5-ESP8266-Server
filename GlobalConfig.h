@@ -31,7 +31,7 @@ class GlobalConfig{
 // If connectWifi is false (no internet access, local only):
 // - All http requests are redirected to the ESP8266 webserver
 // - There is no internet access for the PS4/PS5    
-    boolean connectWifi = false; 
+    boolean connectWifi = true; 
     String WIFI_SSID = ""; 
     String WIFI_PASS = "";
 
