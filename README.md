@@ -1,3 +1,15 @@
+This is my version of wololos ESP8266 implementation of the PS5 exploit. It uses a modified version of idlesauces exploit host.
+
+The admin page of the ESP board is accesible when pressing L2 on the userguide and selecting the 10.1.1.1/admin html bookmark.
+
+If you want to connect to a wifi network you can enter the SSID and the password in the Board Configs page.
+
+Thanks to: 
+
+wololo (https://github.com/frwololo/PS4_PS5-ESP8266-Server)
+idlesauce (https://github.com/idlesauce/PS5-Exploit-Host)
+
+
 # PS4_PS5-ESP-Server
 A WebServer+Wifi Repeater+Fake DNS Server to Host PS4/PS5 Exploits on ESP8266/ESP32
 
