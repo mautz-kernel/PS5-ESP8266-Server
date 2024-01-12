@@ -121,13 +121,13 @@ function redirectorGo() {
 }
 
 const default_pinned_websites = [
-    "https://es7in1.site/ps5jb",
+    "https://es7in1.site/ps5",
     "https://google.com",
     "http://10.1.1.1/admin.html"
 ]
 
 const dummy_history = [
-    "https://es7in1.site/ps5jb",
+    "https://es7in1.site/ps5",
     "https://google.com",
     "https://ps5jb.pages.dev",
     "https://github.com",
