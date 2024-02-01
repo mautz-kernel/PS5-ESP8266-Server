@@ -1,5 +1,6 @@
 #include "WebAdmin.h"
 #include "GlobalConfig.h"
+#include <LittleFS.h> 
 
 ESPWebServer * WebAdmin::webServer = NULL;
 File WebAdmin::upFile;
@@ -12,7 +13,7 @@ void WebAdmin::handleConfig()
   const char* config_params[] = {"ap_ssid", "ap_pass", "ap_ip", "ap_subnet", "enable_wifi", "wifi_ssid", "wifi_pass"};
   if(webServer->hasArg("ap_ssid")) 
   { 
-    File iniFile = SPIFFS.open(CONFIG_FILE, "w");
+    File iniFile = LittleFS.open(CONFIG_FILE, "w");
     if (iniFile) {
       for (const char* element : config_params)
       { 
@@ -151,7 +152,7 @@ void WebAdmin::handleFileUpload() {
     }
     if (filename.equals(CONFIG_FILE))
     {return;}
-    WebAdmin::upFile = SPIFFS.open(filename, "w");
+    WebAdmin::upFile = LittleFS.open(filename, "w");
     filename = String();
   } else if (upload.status == UPLOAD_FILE_WRITE) {
     if (WebAdmin::upFile) {
@@ -166,10 +167,10 @@ void WebAdmin::handleFileUpload() {
 
 void WebAdmin::handleFormat()
 {
-  //Serial.print("Formatting SPIFFS");
-  SPIFFS.end();
-  SPIFFS.format();
-  SPIFFS.begin();
+  //Serial.print("Formatting LittleFS");
+  LittleFS.end();
+  LittleFS.format();
+  LittleFS.begin();
 
   GlobalConfig * conf = GlobalConfig::GetConfig();
   conf->writeConfig();
@@ -186,8 +187,8 @@ void WebAdmin::handleDelete(){
     return;
   }
  String path = webServer->arg("file");
- if (SPIFFS.exists("/" + path) && path != "/" && !path.equals("config.ini")) {
-    SPIFFS.remove("/" + path);
+ if (LittleFS.exists("/" + path) && path != "/" && !path.equals("config.ini")) {
+    LittleFS.remove("/" + path);
  }
    webServer->sendHeader("Location","/fileman.html");
    webServer->send(302, "text/html", "");
@@ -196,9 +197,9 @@ void WebAdmin::handleDelete(){
 
 void WebAdmin::handleFileMan() {
 #ifdef ESP32
-  File dir = SPIFFS.open("/");
+  File dir = LittleFS.open("/");
 #else
-  Dir dir = SPIFFS.openDir("/");
+  Dir dir = LittleFS.openDir("/");
 #endif
   
   const static char header_html[] PROGMEM =  "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>File Manager</title><style type=\"text/css\">a:link {color: #ffffff; text-decoration: none;} a:visited {color: #ffffff; text-decoration: none;} a:hover {color: #ffffff; text-decoration: underline;} a:active {color: #ffffff; text-decoration: underline;} table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;} td, th {border: 1px solid #dddddd; text-align: left; padding: 8px;} button {display: inline-block; padding: 1px; margin-right: 6px; vertical-align: top; float:left;} body {background-color: #1451AE;color: #ffffff; font-size: 14px; padding: 0.4em 0.4em 0.4em 0.6em; margin: 0 0 0 0.0;}</style><script>function statusDel(fname) {var answer = confirm(\"Are you sure you want to delete \" + fname + \" ?\");if (answer) {return true;} else { return false; }}</script></head><body><br><table>"; 
@@ -301,7 +302,7 @@ void WebAdmin::handleInfo()
 {
   const static char js[] PROGMEM ="";
   FSInfo fs_info;
-  SPIFFS.info(fs_info);
+  LittleFS.info(fs_info);
   float flashFreq = (float)ESP.getFlashChipSpeed() / 1000.0 / 1000.0;
   FlashMode_t ideMode = ESP.getFlashChipMode();
   float supplyVoltage = (float)ESP.getVcc()/ 1000.0 ;
@@ -320,7 +321,7 @@ void WebAdmin::handleInfo()
   output += "Actual Flash size based on chip Id: " + formatBytes(ESP.getFlashChipRealSize()) + "<br>";
   output += "Flash frequency: " + String(flashFreq) + " MHz<br>";
   output += "Flash write mode: " + String((ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN")) + "<br><hr>";
-  output += "###### File system (SPIFFS) ######<br><br>"; 
+  output += "###### File system (LittleFS) ######<br><br>"; 
   output += "Total space: " + formatBytes(fs_info.totalBytes) + "<br>";
   output += "Used space: " + formatBytes(fs_info.usedBytes) + "<br>";
   output += "Block size: " + String(fs_info.blockSize) + "<br>";

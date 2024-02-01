@@ -11,7 +11,7 @@ using ESPWebServer = ESP8266WebServer;
 #include <WebServer.h>
 using ESPWebServer = WebServer;
 #include <FS.h>
-#include <SPIFFS.h>
+#include <LittleFS.h>
 #endif
 
 class WebAdmin {

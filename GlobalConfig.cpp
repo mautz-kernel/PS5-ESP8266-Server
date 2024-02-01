@@ -1,8 +1,9 @@
 #include "GlobalConfig.h"
-
+#include <LittleFS.h> 
+  
 #include <FS.h>
 #ifdef ESP32
-  #include <SPIFFS.h>
+  #include <LittleFS.h>
 #endif
 const char* CONFIG_FILE = "/config.ini";
 
@@ -26,7 +27,7 @@ GlobalConfig::~GlobalConfig()
 
 void GlobalConfig::writeConfig()
 {
-  File iniFile = SPIFFS.open(CONFIG_FILE, "w");
+  File iniFile = LittleFS.open(CONFIG_FILE, "w");
   if (iniFile) {
       iniFile.print("ap_ssid=" + AP_SSID + "\r\nap_pass=" + AP_PASS + "\r\nap_ip=" + Server_IP.toString() + "\r\nap_subnet=" + Subnet_Mask.toString() +  "\r\nenable_wifi=" + connectWifi + "\r\nwifi_ssid=" + WIFI_SSID + "\r\nwifi_pass=" + WIFI_PASS + "\r\n");
       iniFile.close();
@@ -56,8 +57,8 @@ String GlobalConfig::getConfigValue(String configString, String key) {
 
 void GlobalConfig::loadConfigFromStorage(void) 
 {
-  if (SPIFFS.exists(CONFIG_FILE)) {
-    File iniFile = SPIFFS.open(CONFIG_FILE, "r");
+  if (LittleFS.exists(CONFIG_FILE)) {
+    File iniFile = LittleFS.open(CONFIG_FILE, "r");
     if (iniFile) {
       String iniData;
       while (iniFile.available()) {
