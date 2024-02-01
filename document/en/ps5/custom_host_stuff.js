@@ -170,8 +170,7 @@ function redirectorGo() {
 
 const default_pinned_websites = [
     "https://es7in1.site/ps5",
-    "https://google.com",
-    "http://10.1.1.1/admin.html"
+    "https://google.com"
 ]
 
 const dummy_history = [

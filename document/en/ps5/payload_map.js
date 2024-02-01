@@ -33,6 +33,14 @@ const payload_map =
             version: '1.0b1'
         },
         {
+            displayTitle: 'HEN-V',
+            description: 'PS5 Homebrew Enabler, FTP, klog',
+            fileName: 'henv.elf',
+            author: 'astrelsky',
+            source:'https://github.com/astrelsky/HEN-V/releases',
+            version: '0.0.1-alpha'
+        },
+        {
             displayTitle: 'PS5 Payload ELF Loader',
             description: 'Uses port 9021. Persistent network elf loader',
             fileName: 'elfldr.elf',
