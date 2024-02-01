@@ -16,15 +16,7 @@ const payload_map =
             source: 'https://github.com/idlesauce/ps5-kstuff-builds/releases',
             version: '1.4'
         },
-        {
-            displayTitle: 'libhijacker game-patch',
-            description: 'Patches supported games to run at higher framerates, and adds debug menus to certain titles.',
-            fileName: 'libhijacker-1.142.elf',
-            author: 'illusion0001, astrelsky',
-            source: 'https://github.com/illusion0001/libhijacker/releases',
-            version: '1.142'
-        },
-        {
+                {
             displayTitle: 'ps5debug',
             description: 'Debugger (Experimental beta)',
             fileName: 'ps5debug.elf',
