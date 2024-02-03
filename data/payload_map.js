@@ -3,10 +3,10 @@ const payload_map =
         {
             displayTitle: 'etaHEN',
             description: 'All-in-one HEN',
-            fileName: 'etaHEN-1.4B.bin',
+            fileName: 'etaHEN-1.5B.bin',
             author: 'LightningMods_, sleirsgoevy, ChendoChap, astrelsky, illusion',
             source: 'https://github.com/LightningMods/etaHEN',
-            version: '1.4 beta'
+            version: '1.5 beta'
         },
         {
             displayTitle: 'K-Stuff',
