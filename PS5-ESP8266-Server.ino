@@ -4,11 +4,14 @@
 //    https://github.com/stooged/PS5-Server32
 //    modified DNS Server from https://github.com/rubfi/esphole
 //    NAT example https://github.com/AliBigdeli/Arduino-ESP8266-Repeater
+//    FTP Server implementation: https://github.com/dplasa/FTPClientServer
 
 
 #include <FS.h>
 #include <SPI.h>
 #include <LittleFS.h> 
+#include <FTPServer.h>
+#define BAUDRATE 74880
 
 #if defined(ESP8266)
   #include <ESP8266WiFi.h>
@@ -36,6 +39,9 @@
 #include "WebAdmin.h" //Pages to manage the device from a web interface (10.1.1.1/admin.html)
 
 GlobalConfig *conf = GlobalConfig::GetConfig();
+
+// tell the FtpServer to use LittleFS
+FTPServer ftpSrv(LittleFS);
 
 //Note: SpoofedDomains and BlockedDomains are *not* regexps, we just do a dumb "string match". So technically, "playstation.net" is equivalent to "*playstation\.net*" regex
 const char* SpoofedDomains[] = {"playstation.net"}; //Used only if conf->wifiConnect is true - all these domains will be redirected to the ESP webServer in DNS Queries
@@ -344,6 +350,8 @@ void setup(void)
   webServer.begin();
   Serial.println(F("HTTP servers started"));
 
+  ftpSrv.begin(F("ftp"), F("ftp")); //username, password for ftp.  set ports in ESP8266FtpServer.h  (default 21, 50009 for PASV)
+
 }
 
 //DNS Blocking and redirecting to local server
@@ -416,8 +424,12 @@ void dnsProcess () {
     }
   }
 }
-
 void loop(void) {
+	
+ // this is all you need
+  // make sure to call handleFTP() frequently
+  ftpSrv.handleFTP();
+
   dnsProcess();
   webServer.handleClient();
 #ifdef ESP32
