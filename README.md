@@ -4,10 +4,13 @@ The admin page of the ESP board is accesible when pressing L2 on the userguide a
 
 If you want to connect to a wifi network you can enter the SSID and the password in the Board Configs page.
 
+An FTP Server is running on the ESP and is accessible on the ESPs IP(normaly 10.1.1.1) on port 21. Username and password are 'ftp'.
+
 Thanks to: 
 
 wololo (https://github.com/frwololo/PS4_PS5-ESP8266-Server)
 idlesauce (https://github.com/idlesauce/PS5-Exploit-Host)
+dplasa (https://github.com/dplasa/FTPClientServer)
 
 
 # PS4_PS5-ESP-Server
