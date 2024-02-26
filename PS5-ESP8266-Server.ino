@@ -5,7 +5,6 @@
 //    modified DNS Server from https://github.com/rubfi/esphole
 //    NAT example https://github.com/AliBigdeli/Arduino-ESP8266-Repeater
 //    FTP Server implementation: https://github.com/dplasa/FTPClientServer
-//    File Browser https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer/examples/FSBrowser
 
 
 #include <FS.h>
@@ -43,13 +42,6 @@ GlobalConfig *conf = GlobalConfig::GetConfig();
 
 // tell the FtpServer to use LittleFS
 FTPServer ftpSrv(LittleFS);
-
-const char* fsName = "LittleFS";
-FS* fileSystem = &LittleFS;
-LittleFSConfig fileSystemConfig = LittleFSConfig();
-
-static bool fsOK;
-String unsupportedFiles = String();
 
 //Note: SpoofedDomains and BlockedDomains are *not* regexps, we just do a dumb "string match". So technically, "playstation.net" is equivalent to "*playstation\.net*" regex
 const char* SpoofedDomains[] = {"playstation.net"}; //Used only if conf->wifiConnect is true - all these domains will be redirected to the ESP webServer in DNS Queries
@@ -211,48 +203,12 @@ void setup(void)
   //Serial.println("SSID: " + conf->AP_SSID);
   //Serial.println("Password: " + conf->AP_PASS);
   //Serial.println("WEB Server IP: " + conf->Server_IP.toString());
-  
-  fileSystemConfig.setAutoFormat(false);
-  fileSystem->setConfig(fileSystemConfig);
-  fsOK = fileSystem->begin();
-  Serial.println(fsOK ? F("Filesystem initialized.") : F("Filesystem init failed!"));
 
 
 #ifdef CHRISTMAS_TREE
   pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
   digitalWrite(LED_BUILTIN, HIGH); //set to off initially
 #endif
-
- ////////////////////////////////
-  // WEB SERVER INIT
-
-  // Filesystem status
-  webServer.on("/status", HTTP_GET, handleStatus);
-
-  // List directory
-  webServer.on("/list", HTTP_GET, handleFileList);
-
-  // Load editor
-  webServer.on("/edit", HTTP_GET, handleGetEdit);
-
-  // Create file
-  webServer.on("/edit", HTTP_PUT, handleFileCreate);
-
-  // Delete file
-  webServer.on("/edit", HTTP_DELETE, handleFileDelete);
-
-  // Upload file
-  // - first callback is called after the request has ended with all parsed arguments
-  // - second callback handles file upload at that location
-  webServer.on("/edit", HTTP_POST, replyOK, handleFileUpload);
-
-  // Default handler for all URIs not defined above
-  // Use it to read files from filesystem
-  webServer.onNotFound(handleNotFound);
-
-  // Start server
-  webServer.begin();
- Serial.println("HTTP server started");
 
 
   //Connect to Wifi Router if needed
