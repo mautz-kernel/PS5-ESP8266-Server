@@ -425,7 +425,7 @@ function find_leaked_view(rstr, view_rstr, view_m_vector, view_arr) {
     write64(view_rstr, strimpl_m_data, old_m_data);
 
     if (res === null) {
-        die('not found');
+        die('view not found');
     }
     return res;
 }
