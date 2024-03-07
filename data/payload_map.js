@@ -30,7 +30,16 @@ const payload_map =
             fileName: 'elfldr.elf',
             author: 'john-tornblom',
             source:'https://github.com/john-tornblom/ps5-payload-elfldr/releases',
-            version: '0.5'
+            version: '0.10'
+        },
+        {
+            displayTitle: 'ps5-payload-shsrv',
+            description: "Telnet shell server. Runs on port 2323. Uses john-tornblom's elfldr.",
+            fileName: 'shsrv.elf',
+            author: 'john-tornblom',
+            loader: 'john-tornblom-elfldr',
+            source:'https://github.com/john-tornblom/ps5-payload-shsrv',
+            version: '0.3'
         },
         {
             displayTitle: 'FTPS5 (Non-Persistent)',
